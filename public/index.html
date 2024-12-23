@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="hs-cookie-consent" content="enabled" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
@@ -40,7 +41,16 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <!-- Start of HubSpot Embed Code -->
-    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/23117380.js"></script>
+    <!-- <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/23117380.js"></script> -->
+    <script 
+    type="text/javascript" 
+    id="hs-script-loader" 
+    async 
+    defer 
+    data-tracking-mode="standard"
+    data-cookie-consent="enabled"
+    src="https://js.hs-scripts.com/23117380.js"
+    ></script>
     <script>
       // Wait for HubSpot to load
       (function checkHubSpot() {
@@ -72,6 +82,16 @@
           setTimeout(checkHubSpot, 1000);
         }
       })();
+    </script>
+    <script>
+      window._hsq = window._hsq || [];
+      window._hsq.push(['doNotTrack', false]);
+      // Explicitly allow tracking cookies
+      window._hsq.push(['addPrivacyConsentListener', function(consent) {
+        if (consent === false) {
+          console.log('User denied cookie consent');
+        }
+      }]);
     </script>
     <!-- End of HubSpot Embed Code -->
   </body>
