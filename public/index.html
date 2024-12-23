@@ -41,6 +41,38 @@
     -->
     <!-- Start of HubSpot Embed Code -->
     <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/23117380.js"></script>
+    <script>
+      // Wait for HubSpot to load
+      (function checkHubSpot() {
+        if (window._hsq) {
+          console.log('HubSpot loaded, sending page data');
+          
+          // Force a new page view with UTM parameters
+          window._hsq.push(['setPath', window.location.pathname + window.location.search]);
+          
+          // Explicitly identify the tracking
+          window._hsq.push(['identify', {
+            'utm_campaign': new URLSearchParams(window.location.search).get('utm_campaign'),
+            'utm_source': new URLSearchParams(window.location.search).get('utm_source'),
+            'utm_medium': new URLSearchParams(window.location.search).get('utm_medium')
+          }]);
+          
+          // Force track page view
+          window._hsq.push(['trackPageView']);
+          
+          // Log what was sent
+          console.log('Tracking data sent:', {
+            path: window.location.pathname + window.location.search,
+            utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign'),
+            utm_source: new URLSearchParams(window.location.search).get('utm_source'),
+            utm_medium: new URLSearchParams(window.location.search).get('utm_medium')
+          });
+        } else {
+          console.log('HubSpot not loaded yet, retrying...');
+          setTimeout(checkHubSpot, 1000);
+        }
+      })();
+    </script>
     <!-- End of HubSpot Embed Code -->
   </body>
 </html>
