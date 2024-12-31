@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="hs-cookie-consent" content="enabled" /> <!-- Added for HubSpot,  Headers for HubSpot cookie consent -->
+    <meta name="hs-cookie-consent" content="enabled" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
@@ -17,61 +17,28 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+    <!-- Initialize HubSpot tracking array -->
     <script>
-      (function checkHubSpot() {
-        if (window._hsq) {
-          console.log('HubSpot object exists:', !!window._hsq);
-          
-          const searchParams = new URLSearchParams(window.location.search);
-          const utmParams = {
-            'utm_campaign': decodeURIComponent(searchParams.get('utm_campaign') || ''),
-            'utm_source': decodeURIComponent(searchParams.get('utm_source') || ''),
-            'utm_medium': decodeURIComponent(searchParams.get('utm_medium') || '')
-          };
-          
-          // Log raw URL parameters
-          console.log('Raw URL:', window.location.search);
-          console.log('Decoded UTM params:', utmParams);
-          
-          try {
-            window._hsq.push(['setPath', window.location.pathname + window.location.search]);
-            console.log('Path set successfully');
-    
-            window._hsq.push(['identify', utmParams]);
-            console.log('Identity set successfully');
-    
-            window._hsq.push(['trackPageView']);
-            console.log('PageView tracked successfully');
-            
-          } catch (error) {
-            console.error('Error in HubSpot tracking:', error);
-          }
-          
-        } else {
-          console.warn('HubSpot not loaded yet, retrying...');
-          setTimeout(checkHubSpot, 1000);
-        }
-      })();
-    </script><!-- Added for HubSpot, load hubspot and force track page view -->
-    <script 
-      type="text/javascript" 
-      id="hs-script-loader" 
-      async 
-      defer 
-      data-tracking-mode="standard"
-      data-debug="true"
-      data-cookie-consent="enabled"
-      src="https://js.hs-scripts.com/23117380.js"
-    ></script><!-- Added for HubSpot, HS Tracking code -->
-    <!-- <script>
       window._hsq = window._hsq || [];
       window._hsq.push(['doNotTrack', false]);
-      // Explicitly allow tracking cookies
       window._hsq.push(['addPrivacyConsentListener', function(consent) {
         if (consent === false) {
           console.log('User denied cookie consent');
         }
       }]);
-    </script> -->
+    </script>
+
+    <!-- HubSpot Tracking Code -->
+    <script
+      type="text/javascript"
+      id="hs-script-loader"
+      async
+      defer
+      data-tracking-mode="standard"
+      data-debug="true"
+      data-cookie-consent="enabled"
+      src="https://js.hs-scripts.com/23117380.js"
+    ></script>
   </body>
 </html>
