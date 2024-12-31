@@ -18,12 +18,10 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script>
-      // Wait for HubSpot to load
       (function checkHubSpot() {
         if (window._hsq) {
-          console.log('HubSpot loaded, sending page data');
+          console.log('HubSpot object exists:', !!window._hsq);
           
-          // Get and decode UTM parameters
           const searchParams = new URLSearchParams(window.location.search);
           const utmParams = {
             'utm_campaign': decodeURIComponent(searchParams.get('utm_campaign') || ''),
@@ -31,22 +29,26 @@
             'utm_medium': decodeURIComponent(searchParams.get('utm_medium') || '')
           };
           
-          // Force a new page view with UTM parameters
-          window._hsq.push(['setPath', window.location.pathname + window.location.search]);
+          // Log raw URL parameters
+          console.log('Raw URL:', window.location.search);
+          console.log('Decoded UTM params:', utmParams);
           
-          // Explicitly identify the tracking
-          window._hsq.push(['identify', utmParams]);
+          try {
+            window._hsq.push(['setPath', window.location.pathname + window.location.search]);
+            console.log('Path set successfully');
+    
+            window._hsq.push(['identify', utmParams]);
+            console.log('Identity set successfully');
+    
+            window._hsq.push(['trackPageView']);
+            console.log('PageView tracked successfully');
+            
+          } catch (error) {
+            console.error('Error in HubSpot tracking:', error);
+          }
           
-          // Force track page view
-          window._hsq.push(['trackPageView']);
-          
-          // Log what was sent
-          console.log('Tracking data sent:', {
-            path: window.location.pathname + window.location.search,
-            ...utmParams
-          });
         } else {
-          console.log('HubSpot not loaded yet, retrying...');
+          console.warn('HubSpot not loaded yet, retrying...');
           setTimeout(checkHubSpot, 1000);
         }
       })();
@@ -57,6 +59,7 @@
       async 
       defer 
       data-tracking-mode="standard"
+      data-debug="true"
       data-cookie-consent="enabled"
       src="https://js.hs-scripts.com/23117380.js"
     ></script><!-- Added for HubSpot, HS Tracking code -->
